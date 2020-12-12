@@ -4,6 +4,8 @@ export const HIDDEN_SCREEN = false;
  
  export class Common{
      constructor(elementId){
+
+        if(typeof elementId === 'undefined') return;
          this.element = this.bindToElement(elementId);
      }
 

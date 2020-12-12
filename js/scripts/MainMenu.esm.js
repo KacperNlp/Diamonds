@@ -11,7 +11,8 @@ class MainMenu extends Common{
     constructor(){
         super(START_SCREEN_ID);
         this.bindToGameElements();
-        window.addEventListener('resize', this.resizeGameWindow())
+        this.resizeGameWindow();
+        window.addEventListener('resize', this.resizeGameWindow)
     }
     #levelSelect = levelSelect;
 
