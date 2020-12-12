@@ -25,3 +25,8 @@ body {
 
 @import "game-container";
 @import "start-screen";
+@import "level-select";
+
+.hidden {
+  display: none;
+}

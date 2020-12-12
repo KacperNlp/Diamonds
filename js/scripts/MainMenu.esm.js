@@ -1,4 +1,5 @@
-import {Common, HIDDEN_CLASS, VISIBLE_SCREEN} from './Common.js';
+import {Common, HIDDEN_SCREEN, VISIBLE_SCREEN} from './Common.esm.js';
+import {levelSelect} from './LevelSelect.esm.js';
 
 const SCALE_PROPERTY = '--scale-value';
 const START_SCREEN_ID = 'js-start-screen';
@@ -9,7 +10,9 @@ class MainMenu extends Common{
     constructor(){
         super(START_SCREEN_ID);
         this.bindToGameElements();
+        window.addEventListener('resize', this.resizeGameWindow())
     }
+    #levelSelect = levelSelect;
 
     bindToGameElements(){
         const gameStartButton = this.bindToElement(START_SCREEN_GAME_BUTTON_ID);
@@ -19,11 +22,12 @@ class MainMenu extends Common{
         gameSettingsButton.addEventListener('click', this.showSettingsSecreen);
     }
 
-    showLevelScreen(){
-        console.log('game level')
+    showLevelScreen=()=>{
+        this.changeVisibilityOfScreen(this.element, HIDDEN_SCREEN)
+        this.changeVisibilityOfScreen(this.#levelSelect.element, VISIBLE_SCREEN)
     }
 
-    showSettingsSecreen(){
+    showSettingsSecreen=()=>{
         console.log('game settings')
     }
 
@@ -32,7 +36,7 @@ class MainMenu extends Common{
 
         const scale = Math.min(width/640, height/480);
 
-        document.documentElement.setProperty(SCALE_PROPERTY, scale);
+        document.documentElement.style.setProperty(SCALE_PROPERTY, scale);
     }
 
 }
