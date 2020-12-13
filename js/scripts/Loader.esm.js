@@ -27,6 +27,8 @@ class Loader extends Common{
         const image = new Image();
         image.src = imageUrl;
         image.addEventListener('load', (e)=> this.itemLoaded(e), false)
+
+        return image;
     }
 
     itemLoaded(e){
