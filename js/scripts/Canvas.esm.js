@@ -21,12 +21,19 @@ class Canvas extends Common{
         this.context.font = '20px Arial white';
     }
 
-    drawGameOnCanvas(){
+    drawGameOnCanvas(gameState){
         this.#drawGameBackground();
+        this.#drawTextOnCanvas(gameState.pointsToWin, 92);
+        this.#drawTextOnCanvas(gameState.getUserPoints(), 163);
+        this.#drawTextOnCanvas(gameState.getLeftMovement(), 234);
     }
 
     #drawGameBackground(){
         this.context.drawImage(this.#media.backgroundImage, 0, 0)
+    }
+
+    #drawTextOnCanvas(text, coordinationY){
+        this.context.fillText(text, 520, coordinationY)
     }
 }
 

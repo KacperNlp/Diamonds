@@ -3,6 +3,12 @@ import {loader, DATALOADED_EVENT_NAME} from './Loader.esm.js'
 import {gameLevels} from './gameLevels.esm.js'
 import { canvas } from './Canvas.esm.js';
 
+const gameState ={
+    pointsToWin : 7000,
+    getUserPoints: ()=> 500,
+    getLeftMovement: ()=> 30,
+}
+
 
 class Game extends Common{
     constructor(){
@@ -20,7 +26,7 @@ class Game extends Common{
     }
 
     animate(){
-        this.#canvas.drawGameOnCanvas();
+        this.#canvas.drawGameOnCanvas(gameState);
         this.animationFrame = window.requestAnimationFrame(()=> this.animate());
     }
 }
