@@ -4,7 +4,7 @@ import {GAME_BOARD_Y_OFFSET} from './Game.esm.js'
 
 const NUMBER_OF_COLUMNS = 8;
 const NUMBER_OF_ROWS = 7;
-export const NUMBER_OF_EMPTY_BLOCKS = 99;
+export const EMPTY_BLOCK = 99;
 
 export const gameLevels = [
     {

@@ -1,6 +1,6 @@
 import  {Common, VISIBLE_SCREEN} from './Common.esm.js';
 import {loader, DATALOADED_EVENT_NAME} from './Loader.esm.js'
-import {gameLevels} from './gameLevels.esm.js'
+//import {gameLevels} from './gameLevels.esm.js'
 import { canvas } from './Canvas.esm.js';
 import {Diamond} from './Diamond.esm.js'
 import {media} from './Media.esm.js';
@@ -22,12 +22,12 @@ class Game extends Common{
     }
 
     #canvas = canvas;
-    #gameLevels = gameLevels;
+    //#gameLevels = gameLevels;
     #media = media;
 
     playLevel(level){
         window.removeEventListener(DATALOADED_EVENT_NAME, this.playLevel);
-        const levelIfno = this.#gameLevels[level - 1];
+        //const levelIfno = this.#gameLevels[level - 1];
         this.changeVisibilityOfScreen(this.#canvas.element, VISIBLE_SCREEN);
         this.diamond = new Diamond(50, 50, 1, 1, 2, this.#media.diamondSprite);
         console.log(this.diamond)
