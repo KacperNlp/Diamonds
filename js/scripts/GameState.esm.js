@@ -6,13 +6,14 @@ export class GameState{
         let _playerPoints = 0;
         this._pointsToWin = pointToWin;
         this._level = level;
-        this._gameBoard = diamonds.map(diamond => new Diamond(...diamond))
+        let _gameBoard = diamonds.map(({x, y, row, column, kind}) => new Diamond(x, y, row, column, kind, diamondsSpriteImages))
 
         this.getLeftMovements = ()=> _leftMovements;
         this.deacrasePointsMovement = ()=> _leftMovements--;
         this.increasePotntsMovement = ()=> _leftMovements++;
         this.increasePlayerPoints = points => _playerPoints += points;
-        thia.getPlayerPoints = ()=> _playerPoints;
+        this.getPlayerPoints = ()=> _playerPoints;
+        this.getGameBoard = ()=> _gameBoard;
 
         this.isPlayerWinner = () => _playerPoints >= this._pointsToWin;
     }

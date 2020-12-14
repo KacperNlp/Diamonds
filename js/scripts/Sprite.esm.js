@@ -21,6 +21,7 @@ export class Sprite{
             this.#canvas.globalAlpha = this.alpha/255;
         }
 
+
         this.#canvas.context.drawImage(
             this.spritesImage,
             numberOfSprites * this.width,

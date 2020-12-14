@@ -15,6 +15,7 @@ export class Diamond extends Sprite{
         x:GAME_BOARD_X_OFFSET,
         y:GAME_BOARD_Y_OFFSET,
         };
+        
         super(
             oldRow, 
             oldColumn,
