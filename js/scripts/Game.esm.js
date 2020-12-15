@@ -1,6 +1,6 @@
 import  {Common, VISIBLE_SCREEN} from './Common.esm.js';
 import {loader, DATALOADED_EVENT_NAME} from './Loader.esm.js'
-import {EMPTY_BLOCK, gameLevels} from './gameLevels.esm.js'
+import {EMPTY_BLOCK, gameLevels, NUMBER_OF_DIAMONDS_KINDS} from './gameLevels.esm.js'
 import { canvas } from './Canvas.esm.js';
 import {Diamond, DIAMOND_SIZE} from './Diamond.esm.js'
 import {media} from './Media.esm.js';
@@ -45,8 +45,11 @@ class Game extends Common{
     animate(){
         this.handleMouseState();
         this.handleMouseClick();
+        this.findMatches();
         this.moveDiamonds();
+        this.countScores();
         this.revertSwap();
+        this.clearMatched();
         this.#canvas.drawGameOnCanvas(this.gameState);
         this.gameState.getGameBoard().forEach(diamond => diamond.draw())
         this.animationFrame = window.requestAnimationFrame(()=> this.animate());
@@ -99,7 +102,7 @@ class Game extends Common{
         mouseController.clicked = false;
     }
 
-    matchFind(){
+    findMatches(){
         this.gameState.getGameBoard().forEach((diamond, index, diamonds) =>{
 
             if(diamond.kind === EMPTY_BLOCK || index ===  LAST_DIAMONDS_ARRAY_INDEX) return;
@@ -109,12 +112,12 @@ class Game extends Common{
                 if(Math.floor((index - 1) / DIAMONDS_ARRAY_WIDTH) === Math.floor((index + 1) / DIAMONDS_ARRAY_WIDTH)){
 
                     for(let counter = -1; counter <= 1; counter++){
-                        diamonds[index + count].match++;
+                        diamonds[index + counter].match++;
                     }
                 }
             }
 
-            if(index <= DIAMONDS_ARRAY_WIDTH 
+            if(index >= DIAMONDS_ARRAY_WIDTH 
                 && index < LAST_DIAMONDS_ARRAY_INDEX - DIAMONDS_ARRAY_WIDTH + 1 
                 && diamonds[index + DIAMONDS_ARRAY_WIDTH].kind === diamond.kind
                 && diamonds[index - DIAMONDS_ARRAY_WIDTH].kind === diamond.kind){
@@ -130,7 +133,6 @@ class Game extends Common{
     }
 
     swapDiamonds(){
-        console.log('poszło')
         const firstClicked = mouseController.firstClick.y * DIAMONDS_ARRAY_WIDTH + mouseController.firstClick.x;
         const secondClicked = mouseController.secondClick.y * DIAMONDS_ARRAY_WIDTH + mouseController.secondClick.x;
 
@@ -169,10 +171,67 @@ class Game extends Common{
         })
     }
 
+    countScores(){
+        this.scores = 0;
+        this.gameState.getGameBoard().forEach(diamond => this.scores += diamond.match);
+
+
+        if(!this.gameState.getIsMoving() && this.scores){
+            this.gameState.increasePlayerPoints(this.scores);
+        }
+    }
+
     revertSwap(){
         if(this.gameState.getIsSwaping() && !this.gameState.getIsMoving()){
+            
+            if(!this.scores){
+                this.swapDiamonds();
+                this.gameState.increasePotntsMovement();
+            }
+            
             this.gameState.setIsSwaping(false);
         }
+    }
+
+    clearMatched(){
+
+        if(this.gameState.getIsMoving()) return;
+
+        this.gameState.getGameBoard().forEach((_, id, diamonds)=>{
+
+            const index = LAST_DIAMONDS_ARRAY_INDEX - id;
+            const column = Math.floor(index / DIAMONDS_ARRAY_WIDTH);
+            const row = Math.floor(index % DIAMONDS_ARRAY_WIDTH);
+
+            if(diamonds[index].match){
+
+                for(let counter = column; counter >= 0; counter--){
+                    if(!diamonds[counter * DIAMONDS_ARRAY_WIDTH + row].match){
+                        this.swap(diamonds[counter * DIAMONDS_ARRAY_WIDTH + row], diamonds[index]);
+                        break;
+                    }
+                }
+            }
+
+        })
+
+
+        this.gameState.getGameBoard().forEach((diamond, index) =>{
+            const row = Math.floor(index % DIAMONDS_ARRAY_WIDTH) * DIAMOND_SIZE;
+
+            if(index < DIAMONDS_ARRAY_WIDTH){
+
+                diamond.kind = EMPTY_BLOCK;
+                diamond.match = 0;
+
+            }else if(diamond.match || diamond.kind === EMPTY_BLOCK){
+                diamond.kind = Math.floor(Math.random() * NUMBER_OF_DIAMONDS_KINDS);
+                diamond.y = 0;
+                diamond.x = row;
+                diamond.match = 0;
+                diamond.alpha = 255;
+            }
+        })
     }
 
     swap(firstDiamond, secondDiamond){
