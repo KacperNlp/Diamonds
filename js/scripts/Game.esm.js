@@ -9,6 +9,7 @@ import {mouseController} from './MouseController.esm.js'
 
 const DIAMONDS_ARRAY_WIDTH = 8;
 const DIAMONDS_ARRAY_HEIGHT = DIAMONDS_ARRAY_WIDTH + 1;
+const SWAPING_SPEED = 8;
 
 
 const gameSettings ={
@@ -43,14 +44,16 @@ class Game extends Common{
     animate(){
         this.handleMouseState();
         this.handleMouseClick();
-        this.#canvas.drawGameOnCanvas(gameSettings);
+        this.moveDiamonds();
+        this.revertSwap();
+        this.#canvas.drawGameOnCanvas(this.gameState);
         this.gameState.getGameBoard().forEach(diamond => diamond.draw())
         this.animationFrame = window.requestAnimationFrame(()=> this.animate());
     }
 
     handleMouseState(){
-        const isSwaping = !this.gameState.getIsSwaping ;
-        const isMoving = !this.gameState.getIsMoving;
+        const isSwaping = !this.gameState.getIsSwaping();
+        const isMoving = !this.gameState.getIsMoving();
 
         if(mouseController.clicked && isMoving && isSwaping){
             mouseController.state++;
@@ -62,6 +65,7 @@ class Game extends Common{
 
         const xClicked = Math.floor((mouseController.x - GAME_BOARD_X_OFFSET) / DIAMOND_SIZE);
         const yClicked = Math.floor((mouseController.y - GAME_BOARD_Y_OFFSET) / DIAMOND_SIZE);
+
 
         if(!yClicked || xClicked >= DIAMONDS_ARRAY_WIDTH || yClicked >= DIAMONDS_ARRAY_HEIGHT) {
             mouseController.state = 0;
@@ -83,7 +87,7 @@ class Game extends Common{
             if(Math.abs(mouseController.firstClick.x - mouseController.secondClick.x) + Math.abs(mouseController.firstClick.y - mouseController.secondClick.y) !== 1){
                 return;
             }
-    
+
             this.swapDiamonds();
     
             this.gameState.setIsSwaping(true);
@@ -95,8 +99,9 @@ class Game extends Common{
     }
 
     swapDiamonds(){
+        console.log('poszło')
         const firstClicked = mouseController.firstClick.y * DIAMONDS_ARRAY_WIDTH + mouseController.firstClick.x;
-        const secondClicked = mouseController.secondClick * DIAMONDS_ARRAY_WIDTH + mouseController.secondClick.x;
+        const secondClicked = mouseController.secondClick.y * DIAMONDS_ARRAY_WIDTH + mouseController.secondClick.x;
 
         const firstDiamond = this.gameState.getGameBoard()[firstClicked];
         const secondDiamond = this.gameState.getGameBoard()[secondClicked];
@@ -104,6 +109,40 @@ class Game extends Common{
         this.swap(firstDiamond, secondDiamond)
     }
 
+
+    moveDiamonds(){
+        this.gameState.setIsMoving(false);
+
+        this.gameState.getGameBoard().forEach(diamond =>{
+            let dx;
+            let dy;
+
+            for(let speedSwap = 0; speedSwap < SWAPING_SPEED; speedSwap++){
+
+
+                dx = diamond.x - diamond.currentRow * DIAMOND_SIZE;
+                dy = diamond.y - diamond.currentColumne * DIAMOND_SIZE;
+
+                if(dx){
+                    diamond.x -= dx/Math.abs(dx);
+                }
+
+                if(dy){
+                    diamond.y -= dy/Math.abs(dy);
+                }
+            }
+
+            if(dy || dx){
+                this.gameState.setIsMoving(true)
+            }
+        })
+    }
+
+    revertSwap(){
+        if(this.gameState.getIsSwaping() && !this.gameState.getIsMoving()){
+            this.gameState.setIsSwaping(false);
+        }
+    }
 
     swap(firstDiamond, secondDiamond){
         [
@@ -129,7 +168,7 @@ class Game extends Common{
             firstDiamond.match,
             firstDiamond.kind,
             firstDiamond.alpha,
-        ] 
+        ] ;
 
        this.gameState.setIsMoving(true);
     }

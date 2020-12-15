@@ -8,10 +8,10 @@ class MouseController{
         this.state = 0;
         this.clicked = false;
 
-        //canvas.addEventListener('mousedown', this.mouseDown)
+        canvas.element.addEventListener('mousedown', this.mouseDown)
     }
 
-    mouseDown(e){
+    mouseDown=(e)=>{
         e.preventDefault();
 
         const scale = Number(document.documentElement.style.getPropertyValue(SCALE_PROPERTY));
@@ -19,7 +19,6 @@ class MouseController{
 
         this.x = (e.clientX - offset.left) / scale;
         this.y = (e.clientY - offset.top) / scale;
-        
 
         this.clicked = true;
     }

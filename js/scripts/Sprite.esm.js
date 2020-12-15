@@ -10,7 +10,6 @@ export class Sprite{
         this.offset = {...offset};
         this.x = posX;
         this.y = posY;
-        console.log(posX)
     }
 
     #canvas = canvas;
