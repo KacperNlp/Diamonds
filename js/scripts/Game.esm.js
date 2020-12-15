@@ -42,6 +42,7 @@ class Game extends Common{
 
     animate(){
         this.handleMouseState();
+        this.handleMouseClick();
         this.#canvas.drawGameOnCanvas(gameSettings);
         this.gameState.getGameBoard().forEach(diamond => diamond.draw())
         this.animationFrame = window.requestAnimationFrame(()=> this.animate());
@@ -56,7 +57,7 @@ class Game extends Common{
         }
     }
 
-    handleMouceClick(){
+    handleMouseClick(){
         if(!mouseController.clicked) return;
 
         const xClicked = Math.floor((mouseController.x - GAME_BOARD_X_OFFSET) / DIAMOND_SIZE);
@@ -83,7 +84,7 @@ class Game extends Common{
                 return;
             }
     
-            this.swapDiamond();
+            this.swapDiamonds();
     
             this.gameState.setIsSwaping(true);
             this.gameState.deacrasePointsMovement();
@@ -92,6 +93,46 @@ class Game extends Common{
 
         mouseController.clicked = false;
     }
-}
+
+    swapDiamonds(){
+        const firstClicked = mouseController.firstClick.y * DIAMONDS_ARRAY_WIDTH + mouseController.firstClick.x;
+        const secondClicked = mouseController.secondClick * DIAMONDS_ARRAY_WIDTH + mouseController.secondClick.x;
+
+        const firstDiamond = this.gameState.getGameBoard()[firstClicked];
+        const secondDiamond = this.gameState.getGameBoard()[secondClicked];
+
+        this.swap(firstDiamond, secondDiamond)
+    }
+
+
+    swap(firstDiamond, secondDiamond){
+        [
+            firstDiamond.x,
+            firstDiamond.y,
+            firstDiamond.match,
+            firstDiamond.kind,
+            firstDiamond.alpha,
+            secondDiamond.x,
+            secondDiamond.y,
+            secondDiamond.match,
+            secondDiamond.kind,
+            secondDiamond.alpha,
+        ] =
+        [
+            secondDiamond.x,
+            secondDiamond.y,
+            secondDiamond.match,
+            secondDiamond.kind,
+            secondDiamond.alpha,
+            firstDiamond.x,
+            firstDiamond.y,
+            firstDiamond.match,
+            firstDiamond.kind,
+            firstDiamond.alpha,
+        ] 
+
+       this.gameState.setIsMoving(true);
+    }
+} 
 
 export const game = new Game();

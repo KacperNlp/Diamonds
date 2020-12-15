@@ -9,7 +9,8 @@ export class Sprite{
         this.spritesImage = spritesImage;
         this.offset = {...offset};
         this.x = posX;
-        this.y = posY
+        this.y = posY;
+        console.log(posX)
     }
 
     #canvas = canvas;
