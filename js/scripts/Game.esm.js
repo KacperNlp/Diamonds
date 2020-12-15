@@ -1,6 +1,6 @@
 import  {Common, VISIBLE_SCREEN} from './Common.esm.js';
 import {loader, DATALOADED_EVENT_NAME} from './Loader.esm.js'
-import {gameLevels} from './gameLevels.esm.js'
+import {EMPTY_BLOCK, gameLevels} from './gameLevels.esm.js'
 import { canvas } from './Canvas.esm.js';
 import {Diamond, DIAMOND_SIZE} from './Diamond.esm.js'
 import {media} from './Media.esm.js';
@@ -10,6 +10,7 @@ import {mouseController} from './MouseController.esm.js'
 const DIAMONDS_ARRAY_WIDTH = 8;
 const DIAMONDS_ARRAY_HEIGHT = DIAMONDS_ARRAY_WIDTH + 1;
 const SWAPING_SPEED = 8;
+const LAST_DIAMONDS_ARRAY_INDEX = DIAMONDS_ARRAY_WIDTH * DIAMONDS_ARRAY_HEIGHT - 1;
 
 
 const gameSettings ={
@@ -96,6 +97,36 @@ class Game extends Common{
         }
 
         mouseController.clicked = false;
+    }
+
+    matchFind(){
+        this.gameState.getGameBoard().forEach((diamond, index, diamonds) =>{
+
+            if(diamond.kind === EMPTY_BLOCK || index ===  LAST_DIAMONDS_ARRAY_INDEX) return;
+
+            if(diamonds[index - 1].kind === diamond.kind && diamonds[index + 1].kind === diamond.kind){
+
+                if(Math.floor((index - 1) / DIAMONDS_ARRAY_WIDTH) === Math.floor((index + 1) / DIAMONDS_ARRAY_WIDTH)){
+
+                    for(let counter = -1; counter <= 1; counter++){
+                        diamonds[index + count].match++;
+                    }
+                }
+            }
+
+            if(index <= DIAMONDS_ARRAY_WIDTH 
+                && index < LAST_DIAMONDS_ARRAY_INDEX - DIAMONDS_ARRAY_WIDTH + 1 
+                && diamonds[index + DIAMONDS_ARRAY_WIDTH].kind === diamond.kind
+                && diamonds[index - DIAMONDS_ARRAY_WIDTH].kind === diamond.kind){
+
+                    if((index - DIAMONDS_ARRAY_WIDTH) % DIAMONDS_ARRAY_WIDTH === (index + DIAMONDS_ARRAY_WIDTH) % DIAMONDS_ARRAY_WIDTH){
+
+                        for(let counter = -DIAMONDS_ARRAY_WIDTH; counter <= DIAMONDS_ARRAY_WIDTH; counter += DIAMONDS_ARRAY_WIDTH){
+                            diamonds[index + counter].match++;
+                        }
+                    }
+                }
+        })
     }
 
     swapDiamonds(){
