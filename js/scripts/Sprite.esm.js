@@ -18,7 +18,7 @@ export class Sprite{
         if(numberOfSprites > this.numberOfSprites) return null;
         
         if(this.alpha !== 255){
-            this.#canvas.globalAlpha = this.alpha/255;
+            this.#canvas.context.globalAlpha = this.alpha/255;
         }
 
 
@@ -35,7 +35,7 @@ export class Sprite{
         )
 
         if(this.alpha !== 255){
-            this.#canvas.globalAlpha = 1;
+            this.#canvas.context.globalAlpha = 1;
         }
     }
 }

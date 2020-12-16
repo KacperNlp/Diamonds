@@ -11,6 +11,7 @@ const DIAMONDS_ARRAY_WIDTH = 8;
 const DIAMONDS_ARRAY_HEIGHT = DIAMONDS_ARRAY_WIDTH + 1;
 const SWAPING_SPEED = 8;
 const LAST_DIAMONDS_ARRAY_INDEX = DIAMONDS_ARRAY_WIDTH * DIAMONDS_ARRAY_HEIGHT - 1;
+const TRANSPARENCY_SPEED = 25;
 
 
 const gameSettings ={
@@ -47,6 +48,7 @@ class Game extends Common{
         this.handleMouseClick();
         this.findMatches();
         this.moveDiamonds();
+        this.hideDiamonds();
         this.countScores();
         this.revertSwap();
         this.clearMatched();
@@ -167,6 +169,18 @@ class Game extends Common{
 
             if(dy || dx){
                 this.gameState.setIsMoving(true)
+            }
+        })
+    }
+
+    hideDiamonds(){
+        if(this.gameState.getIsMoving()) return;
+
+        this.gameState.getGameBoard().forEach(diamond =>{
+            if(diamond.match && diamond.alpha >= TRANSPARENCY_SPEED){
+                diamond.alpha -= TRANSPARENCY_SPEED;
+                console.log(diamond.alpha)
+                this.gameState.setIsMoving(true);
             }
         })
     }
