@@ -1,11 +1,12 @@
 import  {Common, VISIBLE_SCREEN} from './Common.esm.js';
-import {loader, DATALOADED_EVENT_NAME} from './Loader.esm.js'
-import {EMPTY_BLOCK, gameLevels, NUMBER_OF_DIAMONDS_KINDS} from './gameLevels.esm.js'
+import {loader, DATALOADED_EVENT_NAME} from './Loader.esm.js';
+import {EMPTY_BLOCK, gameLevels, NUMBER_OF_DIAMONDS_KINDS} from './gameLevels.esm.js';
 import { canvas } from './Canvas.esm.js';
-import {Diamond, DIAMOND_SIZE} from './Diamond.esm.js'
+import {Diamond, DIAMOND_SIZE} from './Diamond.esm.js';
 import {media} from './Media.esm.js';
-import {GameState} from './GameState.esm.js'
-import {mouseController} from './MouseController.esm.js'
+import {GameState} from './GameState.esm.js';
+import {mouseController} from './MouseController.esm.js';
+import {resultScreen} from './ResultScreen.esm.js'
 
 const DIAMONDS_ARRAY_WIDTH = 8;
 const DIAMONDS_ARRAY_HEIGHT = DIAMONDS_ARRAY_WIDTH + 1;
@@ -248,12 +249,15 @@ class Game extends Common{
 
     checksEndGame(){
         if(!this.gameState.getLeftMovements() && !this.gameState.getIsMoving() && !this.gameState.getIsSwaping()){
-
-            if(!!(this.gameLevels[this.gameState.level]) && this.gameState.isPlayerWinner()){
+            const isPlayerWinner = this.gameState.isPlayerWinner();
+            if(!!(gameLevels[this.gameState.level]) && isPlayerWinner){
                 console.log('przechodzisz do następnego levelu!');
             }else{
                 console.log('Tym razem się nie udało psróbuj ponownie :)')
             }
+
+            resultScreen.viewResultScreen(isPlayerWinner, this.gameState.getPlayerPoints(), this.gameState.level);
+
         }else{
             this.animationFrame = window.requestAnimationFrame(()=> this.animate());
         }

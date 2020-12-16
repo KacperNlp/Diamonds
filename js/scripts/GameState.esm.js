@@ -14,7 +14,7 @@ export class GameState{
         this.getLeftMovements = ()=> _leftMovements;
         this.deacrasePointsMovement = ()=> _leftMovements--;
         this.increasePotntsMovement = ()=> _leftMovements++;
-        this.increasePlayerPoints = points => _playerPoints += points;
+        this.increasePlayerPoints = points => _playerPoints += points*2;
         this.getPlayerPoints = ()=> _playerPoints;
         this.getGameBoard = ()=> _gameBoard;
 

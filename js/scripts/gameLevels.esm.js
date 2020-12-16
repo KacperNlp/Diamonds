@@ -12,7 +12,7 @@ export const gameLevels = [
     {
         level: 1,
         numberOfMovement: 30,
-        pointToWin: 7000,
+        pointToWin: 5000,
         board: [
             //first row
             {x:0 * DIAMOND_SIZE, y: -1 * DIAMOND_SIZE + GAME_BOARD_Y_OFFSET, row:0, column:0, kind: EMPTY_BLOCK},
