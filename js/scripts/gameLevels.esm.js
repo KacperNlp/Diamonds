@@ -99,6 +99,5 @@ export const gameLevels = [
 
     },{
         level: 2,
-        
     }
 ]

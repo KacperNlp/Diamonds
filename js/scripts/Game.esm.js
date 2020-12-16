@@ -54,7 +54,7 @@ class Game extends Common{
         this.clearMatched();
         this.#canvas.drawGameOnCanvas(this.gameState);
         this.gameState.getGameBoard().forEach(diamond => diamond.draw())
-        this.animationFrame = window.requestAnimationFrame(()=> this.animate());
+        this.checksEndGame();
     }
 
     handleMouseState(){
@@ -179,7 +179,6 @@ class Game extends Common{
         this.gameState.getGameBoard().forEach(diamond =>{
             if(diamond.match && diamond.alpha >= TRANSPARENCY_SPEED){
                 diamond.alpha -= TRANSPARENCY_SPEED;
-                console.log(diamond.alpha)
                 this.gameState.setIsMoving(true);
             }
         })
@@ -229,7 +228,6 @@ class Game extends Common{
 
         })
 
-
         this.gameState.getGameBoard().forEach((diamond, index) =>{
             const row = Math.floor(index % DIAMONDS_ARRAY_WIDTH) * DIAMOND_SIZE;
 
@@ -246,6 +244,19 @@ class Game extends Common{
                 diamond.alpha = 255;
             }
         })
+    }
+
+    checksEndGame(){
+        if(!this.gameState.getLeftMovements() && !this.gameState.getIsMoving() && !this.gameState.getIsSwaping()){
+
+            if(!!(this.gameLevels[this.gameState.level]) && this.gameState.isPlayerWinner()){
+                console.log('przechodzisz do następnego levelu!');
+            }else{
+                console.log('Tym razem się nie udało psróbuj ponownie :)')
+            }
+        }else{
+            this.animationFrame = window.requestAnimationFrame(()=> this.animate());
+        }
     }
 
     swap(firstDiamond, secondDiamond){
