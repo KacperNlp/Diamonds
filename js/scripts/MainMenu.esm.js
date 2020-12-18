@@ -25,6 +25,7 @@ class MainMenu extends Common{
     }
 
     showLevelScreen=()=>{
+        this.#levelSelect.createButtons();
         this.changeVisibilityOfScreen(this.element, HIDDEN_SCREEN)
         this.changeVisibilityOfScreen(this.#levelSelect.element, VISIBLE_SCREEN)
     }

@@ -11,7 +11,7 @@ class UserData{
         if(!item) return false;
 
         const {active} = JSON.parse(item);
-
+        
         return active;
     }
 
@@ -27,7 +27,7 @@ class UserData{
         return score;
     }
 
-    setHightScore(newBestScore, level){
+    setHightScore(level, newBestScore){
         localStorage.setItem(String(level), JSON.stringify({active:true, score: newBestScore}));
     }
 }
