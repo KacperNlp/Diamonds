@@ -42,6 +42,10 @@ class Game extends Common{
         this.gameState = new GameState(level, numberOfMovement, pointToWin, diamonds, this.#media.diamondSprite)
 
         this.changeVisibilityOfScreen(this.#canvas.element, VISIBLE_SCREEN);
+
+        this.#media.isInLevel = true;
+        this.#media.playBackgroundMusic();
+
         this.animate();
     }
 
@@ -98,6 +102,7 @@ class Game extends Common{
             }
 
             this.swapDiamonds();
+            this.#media.playSwapSound();
     
             this.gameState.setIsSwaping(true);
             this.gameState.deacrasePointsMovement();
@@ -429,6 +434,9 @@ class Game extends Common{
 
     checksEndGame(){
         if(!this.gameState.getLeftMovements() && !this.gameState.getIsMoving() && !this.gameState.getIsSwaping()){
+
+            this.#media.isInLevel = false;
+            this.#media.stopBackgroundMusice();
 
             const isPlayerWinner = this.gameState.isPlayerWinner();
             const currentLevel = Number(this.gameState.level);

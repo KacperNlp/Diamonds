@@ -18,6 +18,10 @@ class Settings extends Common{
     constructor(){
         super(SETTINGS_SCREEN_ID);
     }
+
+    bindToElements(){
+        
+    }
 }
 
 export const settings = new Settings();
