@@ -1,4 +1,5 @@
 import {Diamond} from './Diamond.esm.js';
+import {DIAMONDS_ARRAY_WIDTH} from './Game.esm.js'
 
 export class GameState{
     constructor(level, leftMovements, pointToWin, diamonds, diamondsSpriteImages){
@@ -33,5 +34,29 @@ export class GameState{
 
     get level(){
         return this._level;
+    }
+
+    mixDiamonds(){
+        const mixedDiamonds = _gameBoard.splice(0, DIAMONDS_ARRAY_WIDTH);
+        const index = DIAMONDS_ARRAY_WIDTH;
+
+        while(_gameBoard.length){
+
+            const randomNumber = Math.floor(Math.random() * _gameBoard.length);
+            const diamondToMix = _gameBoard.splice(randomNumber, 1)[0];
+
+            const newDiamondObj = {
+                ...diamondToMix,
+                row: index % DIAMONDS_ARRAY_WIDTH,
+                column: Math.floor(index / DIAMONDS_ARRAY_WIDTH),
+            };
+
+            index++;
+            mixedDiamonds.push(newDiamondObj);
+
+        }
+
+
+        _gameBoard.push(mixedDiamonds);
     }
 }

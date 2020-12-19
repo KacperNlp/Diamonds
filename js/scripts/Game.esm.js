@@ -9,7 +9,7 @@ import {mouseController} from './MouseController.esm.js';
 import {resultScreen} from './ResultScreen.esm.js'
 import { userData } from './UserData.esm.js';
 
-const DIAMONDS_ARRAY_WIDTH = 8;
+export const DIAMONDS_ARRAY_WIDTH = 8;
 const DIAMONDS_ARRAY_HEIGHT = DIAMONDS_ARRAY_WIDTH + 1;
 const SWAPING_SPEED = 8;
 const LAST_DIAMONDS_ARRAY_INDEX = DIAMONDS_ARRAY_WIDTH * DIAMONDS_ARRAY_HEIGHT - 1;
