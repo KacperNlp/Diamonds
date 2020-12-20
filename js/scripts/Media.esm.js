@@ -109,7 +109,7 @@ class Media{
             this.stopBackgroundMusice();
         }else{
             this.allowedMusic = true;
-            this.stopBackgroundMusice();
+            this.playBackgroundMusic();
         }
     }
 

@@ -1,4 +1,4 @@
-import  {Common, VISIBLE_SCREEN} from './Common.esm.js';
+import  {Common, HIDDEN_SCREEN, VISIBLE_SCREEN} from './Common.esm.js';
 import {loader, DATALOADED_EVENT_NAME} from './Loader.esm.js';
 import {EMPTY_BLOCK, gameLevels, NUMBER_OF_DIAMONDS_KINDS} from './gameLevels.esm.js';
 import { canvas } from './Canvas.esm.js';
@@ -8,6 +8,8 @@ import {GameState} from './GameState.esm.js';
 import {mouseController} from './MouseController.esm.js';
 import {resultScreen} from './ResultScreen.esm.js'
 import { userData } from './UserData.esm.js';
+import { mainMenu } from './MainMenu.esm.js';
+import { backToMenu } from './BackToMenu.esm.js';
 
 export const DIAMONDS_ARRAY_WIDTH = 8;
 const DIAMONDS_ARRAY_HEIGHT = DIAMONDS_ARRAY_WIDTH + 1;
@@ -42,6 +44,8 @@ class Game extends Common{
         this.gameState = new GameState(level, numberOfMovement, pointToWin, diamonds, this.#media.diamondSprite)
 
         this.changeVisibilityOfScreen(this.#canvas.element, VISIBLE_SCREEN);
+        this.changeVisibilityOfScreen(mainMenu.miniSettingsLayer, VISIBLE_SCREEN)
+        this.changeVisibilityOfScreen(backToMenu.element, HIDDEN_SCREEN)
 
         this.#media.isInLevel = true;
         this.#media.playBackgroundMusic();
@@ -183,8 +187,6 @@ class Game extends Common{
 
     hideDiamonds(){
         if(this.gameState.getIsMoving()) return;
-
-        console.log(TRANSPARENCY_SPEED)
 
         this.gameState.getGameBoard().forEach(diamond =>{
             if(diamond.match && diamond.alpha >= TRANSPARENCY_SPEED){
@@ -446,7 +448,6 @@ class Game extends Common{
             if(!!(gameLevels[this.gameState.level]) && isPlayerWinner){
 
                 if(!userData.checkAvailabilityLevel(nextLevel)){
-                    console.log('jest nieodblokowany')
                     userData.addNewLevel(nextLevel)
                 }
 

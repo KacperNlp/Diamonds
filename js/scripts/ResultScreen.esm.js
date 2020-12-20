@@ -50,6 +50,7 @@ class ResultScreen extends Common{
     #backButtonClick=()=>{
         this.changeVisibilityOfScreen(canvas.element, HIDDEN_SCREEN);
         this.changeVisibilityOfScreen(this.element, HIDDEN_SCREEN);
+        this.changeVisibilityOfScreen(mainMenu.miniSettingsLayer, HIDDEN_SCREEN)
         mainMenu.showLevelScreen();
     }
 
