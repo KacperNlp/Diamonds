@@ -57,7 +57,7 @@ class LevelSelect extends Common{
     }
 
     loadLevel(level){
-        debugger;
+
         if(this.#media.backgroundImage && this.#media.diamondSprite && this.#media.backgroundMusic && this.#media.swapSound){
             this.#game.playLevel(level);
             return;

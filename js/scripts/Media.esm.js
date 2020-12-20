@@ -14,20 +14,20 @@ class Media{
     #diamondSprite = null;
 
     //increase or decrease music
-    increaseMusiceVolume(){
+    increaseMusicVolume(){
         this.musicVolume += 0.1;
 
         if(this.musicVolume > 1) this.musicVolume = 1;
 
-        this._backgroundMusic.volume = this.musicVolume;
+        if(this._backgroundMusic) this._backgroundMusic.volume = this.musicVolume;
     }
 
-    decreaseMusiceVolume(){
+    decreaseMusicVolume(){
         this.musicVolume -= 0.1;
 
         if(this.musicVolume < 0) this.musicVolume = 0;
 
-        this._backgroundMusic.volume = this.musicVolume;
+        if(this._backgroundMusic) this._backgroundMusic.volume = this.musicVolume;
     }
 
     //increase or decrease sound
@@ -36,7 +36,7 @@ class Media{
 
         if(this.soundVolume > 1) this.soundVolume = 1;
 
-        this._backgroundMusic.volume = this.soundVolume;
+        if(this._swapSound) this._swapSound.volume = this.soundVolume;
     }
 
     decreaseSoundVolume(){
@@ -44,7 +44,7 @@ class Media{
 
         if(this.soundVolume < 0) this.soundVolume = 0;
 
-        this._backgroundMusic.volume = this.soundVolume;
+        if(this._swapSound) this._swapSound.volume = this.soundVolume;
     }
 
     //play or pause musice
@@ -52,18 +52,18 @@ class Media{
         if(!this.allowedMusic) return;
 
         this._backgroundMusic.loop = true;
-        this._backgroundMusic.play();
+        if(this._backgroundMusic) this._backgroundMusic.play();
     }
 
     stopBackgroundMusice(){
-        this._backgroundMusic.pause();
+        if(this._backgroundMusic) this._backgroundMusic.pause();
     }
 
     //game sound
     playSwapSound(){
         if(!this.allowedSound) return;
 
-        this._swapSound.play();
+        if(this._swapSound) this._swapSound.play();
     }
 
     set swapSound(sound){
@@ -110,6 +110,15 @@ class Media{
         }else{
             this.allowedMusic = true;
             this.stopBackgroundMusice();
+        }
+    }
+
+    
+    toggleSoundOnOff(){
+        if(this.allowedSound){
+            this.allowedSound = false;
+        }else{
+            this.allowedSound = true;
         }
     }
 }

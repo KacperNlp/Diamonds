@@ -289,7 +289,7 @@ class Game extends Common{
                  index % DIAMONDS_ARRAY_WIDTH < DIAMONDS_ARRAY_WIDTH - 1
                  && Math.floor(index / DIAMONDS_ARRAY_WIDTH) < DIAMONDS_ARRAY_HEIGHT - 2
                  && diamond.kind === diamonds[index + DIAMONDS_ARRAY_WIDTH + 1].kind
-                 && diamond.kind === diamonds[index + ((DIAMONDS_ARRAY_WIDTH * 2) + 1)].kind
+                 && diamond.kind === diamonds[index + DIAMONDS_ARRAY_WIDTH * 2 + 1].kind
              ){
                  return true;
              }
@@ -299,7 +299,7 @@ class Game extends Common{
                  index % DIAMONDS_ARRAY_WIDTH < DIAMONDS_ARRAY_WIDTH - 1
                  && Math.floor(index/DIAMONDS_ARRAY_WIDTH) < DIAMONDS_ARRAY_HEIGHT + 2
                  && diamond.kind === diamonds[index - DIAMONDS_ARRAY_WIDTH + 1].kind
-                 && diamond.kind === diamonds[index - ((DIAMONDS_ARRAY_WIDTH * 2) + 1)].kind
+                 && diamond.kind === diamonds[index - DIAMONDS_ARRAY_WIDTH * 2 + 1].kind
              ){
                  return true;
              }
@@ -450,10 +450,7 @@ class Game extends Common{
                     userData.addNewLevel(nextLevel)
                 }
 
-            }else{
-                console.log('Tym razem się nie udało psróbuj ponownie :)')
             }
-
             //update hight/best score in current level
             if( playerPoints > userData.getHightScore(currentLevel)){
                 userData.setHightScore(currentLevel, playerPoints)
